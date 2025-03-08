@@ -2130,7 +2130,7 @@ impl Encode for Handle {
 /// A constant expression.
 ///
 /// Usable in contexts such as offsets or initializers.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct ConstExpr {
     bytes: Vec<u8>,
 }

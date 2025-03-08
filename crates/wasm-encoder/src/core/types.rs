@@ -47,18 +47,18 @@ pub struct FuncType {
 }
 
 /// Represents a type of an array in a WebAssembly module.
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct ArrayType(pub FieldType);
 
 /// Represents a type of a struct in a WebAssembly module.
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, Eq, PartialEq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct StructType {
     /// Struct fields.
     pub fields: Box<[FieldType]>,
 }
 
 /// Field type in composite types (structs, arrays).
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct FieldType {
     /// Storage type of the field.
     pub element_type: StorageType,
@@ -67,7 +67,7 @@ pub struct FieldType {
 }
 
 /// Storage type for composite type fields.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, serde_derive::Serialize, serde_derive::Deserialize)]
 pub enum StorageType {
     /// The `i8` type.
     I8,
@@ -97,7 +97,7 @@ impl StorageType {
 pub struct ContType(pub u32);
 
 /// The type of a core WebAssembly value.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, serde_derive::Serialize, serde_derive::Deserialize)]
 pub enum ValType {
     /// The `i32` type.
     I32,
@@ -224,7 +224,7 @@ impl Encode for ValType {
 /// This is largely part of the function references proposal for WebAssembly but
 /// additionally is used by the `funcref` and `externref` types. The full
 /// generality of this type is only exercised with function-references.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, serde_derive::Serialize, serde_derive::Deserialize)]
 #[allow(missing_docs)]
 pub struct RefType {
     pub nullable: bool,
@@ -350,7 +350,7 @@ impl From<RefType> for ValType {
 }
 
 /// Part of the function references proposal.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, serde_derive::Serialize, serde_derive::Deserialize)]
 pub enum HeapType {
     /// An abstract heap type; e.g., `anyref`.
     Abstract {
@@ -407,7 +407,7 @@ impl Encode for HeapType {
 }
 
 /// An abstract heap type.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, serde_derive::Serialize, serde_derive::Deserialize)]
 pub enum AbstractHeapType {
     /// Untyped (any) function.
     Func,

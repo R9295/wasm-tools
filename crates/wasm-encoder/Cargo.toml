@@ -21,6 +21,8 @@ workspace = true
 
 [dependencies]
 leb128fmt.workspace = true
+serde = { workspace = true, optional = true }
+serde_derive = { workspace = true, optional = true }
 
 # Enable this dependency to get a bunch of `From<wasmparser::Foo> for
 # wasm_encoder::Foo` impls.
@@ -36,7 +38,7 @@ wasmprinter = { workspace = true }
 default = ['std', 'component-model']
 
 # A feature which enables implementations of `std::error::Error` as appropriate.
-std = ["wasmparser?/std"]
+std = ["wasmparser?/std", 'serde', 'serde_derive']
 
 # On-by-default: conditional support for emitting components in addition to
 # core modules.

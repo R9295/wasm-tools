@@ -5,7 +5,7 @@ use crate::{encode_section, Encode, Section, SectionId};
 use alloc::vec::Vec;
 
 /// Represents the kind of an export from a WebAssembly module.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 #[repr(u8)]
 pub enum ExportKind {
     /// The export is a function.

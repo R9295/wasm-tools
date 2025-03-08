@@ -67,7 +67,7 @@ impl Section for MemorySection {
 }
 
 /// A memory's type.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct MemoryType {
     /// Minimum size, in pages, of this memory
     pub minimum: u64,

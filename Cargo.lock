@@ -2535,6 +2535,8 @@ version = "0.227.1"
 dependencies = [
  "anyhow",
  "leb128fmt",
+ "serde",
+ "serde_derive",
  "tempfile",
  "wasmparser 0.227.1",
  "wasmprinter 0.227.1",

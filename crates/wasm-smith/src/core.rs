@@ -172,7 +172,7 @@ impl fmt::Debug for Module {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) enum DuplicateImportsBehavior {
     Allowed,
     Disallowed,
@@ -255,7 +255,7 @@ impl Module {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) struct SubType {
     pub(crate) is_final: bool,
     pub(crate) supertype: Option<u32>,
@@ -276,7 +276,7 @@ impl SubType {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) struct CompositeType {
     pub inner: CompositeInnerType,
     pub shared: bool,
@@ -329,7 +329,7 @@ impl From<&CompositeType> for wasm_encoder::CompositeType {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) enum CompositeInnerType {
     Array(ArrayType),
     Func(Rc<FuncType>),
@@ -337,7 +337,7 @@ pub(crate) enum CompositeInnerType {
 }
 
 /// A function signature.
-#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) struct FuncType {
     /// Types of the parameter values.
     pub(crate) params: Vec<ValType>,
@@ -346,7 +346,7 @@ pub(crate) struct FuncType {
 }
 
 /// An import of an entity provided externally or by a component.
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) struct Import {
     /// The name of the module providing this entity.
     pub(crate) module: String,
@@ -357,7 +357,7 @@ pub(crate) struct Import {
 }
 
 /// Type of an entity.
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) enum EntityType {
     /// A global entity.
     Global(GlobalType),
@@ -372,7 +372,7 @@ pub(crate) enum EntityType {
 }
 
 /// Type of a tag.
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) struct TagType {
     /// Index of the function type.
     func_type_idx: u32,
@@ -380,14 +380,14 @@ pub(crate) struct TagType {
     func_type: Rc<FuncType>,
 }
 
-#[derive(Debug)]
-struct ElementSegment {
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
+pub struct ElementSegment {
     kind: ElementKind,
     ty: RefType,
     items: Elements,
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 enum ElementKind {
     Passive,
     Declared,
@@ -397,26 +397,26 @@ enum ElementKind {
     },
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 enum Elements {
     Functions(Vec<u32>),
     Expressions(Vec<ConstExpr>),
 }
 
-#[derive(Debug)]
-struct Code {
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
+pub struct Code {
     locals: Vec<ValType>,
     instructions: Instructions,
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 enum Instructions {
     Generated(Vec<Instruction>),
     Arbitrary(Vec<u8>),
 }
 
 #[derive(Debug)]
-struct DataSegment {
+pub struct DataSegment {
     kind: DataSegmentKind,
     init: Vec<u8>,
 }

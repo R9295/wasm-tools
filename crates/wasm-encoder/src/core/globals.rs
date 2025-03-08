@@ -76,7 +76,7 @@ impl Section for GlobalSection {
 }
 
 /// A global's type.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct GlobalType {
     /// This global's value type.
     pub val_type: ValType,

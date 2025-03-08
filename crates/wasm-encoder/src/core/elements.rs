@@ -46,7 +46,7 @@ pub struct ElementSection {
 }
 
 /// A sequence of elements in a segment in the element section.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde_derive::Deserialize, serde_derive::Serialize)]
 pub enum Elements<'a> {
     /// A sequences of references to functions by their indices.
     Functions(Cow<'a, [u32]>),
@@ -55,8 +55,8 @@ pub enum Elements<'a> {
 }
 
 /// An element segment's mode.
-#[derive(Clone, Debug)]
-pub enum ElementMode<'a> {
+#[derive(Clone, Debug, serde_derive::Serialize, serde_derive::Deserialize)]
+pub enum ElementMode {
     /// A passive element segment.
     ///
     /// Passive segments are part of the bulk memory proposal.
@@ -74,15 +74,15 @@ pub enum ElementMode<'a> {
         /// bulk memory proposal and can refer to tables with any valid reference type.
         table: Option<u32>,
         /// The offset within the table to place this segment.
-        offset: &'a ConstExpr,
+        offset: ConstExpr,
     },
 }
 
 /// An element segment in the element section.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct ElementSegment<'a> {
     /// The element segment's mode.
-    pub mode: ElementMode<'a>,
+    pub mode: ElementMode,
     /// This segment's elements.
     pub elements: Elements<'a>,
 }
@@ -178,7 +178,7 @@ impl ElementSection {
         self.segment(ElementSegment {
             mode: ElementMode::Active {
                 table: table_index,
-                offset,
+                offset: offset.clone(),
             },
             elements,
         })
