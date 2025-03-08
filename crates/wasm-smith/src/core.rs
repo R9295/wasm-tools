@@ -44,117 +44,117 @@ type Instruction = wasm_encoder::Instruction<'static>;
 /// [`Config`][crate::Config] and then call [`Module::new`][crate::Module::new]
 /// with it.
 pub struct Module {
-    config: Config,
-    duplicate_imports_behavior: DuplicateImportsBehavior,
-    valtypes: Vec<ValType>,
+    pub config: Config,
+    pub duplicate_imports_behavior: DuplicateImportsBehavior,
+    pub valtypes: Vec<ValType>,
 
     /// All types locally defined in this module (available in the type index
     /// space).
-    types: Vec<SubType>,
+    pub types: Vec<SubType>,
 
     /// Non-overlapping ranges within `types` that belong to the same rec
     /// group. All of `types` is covered by these ranges. When GC is not
     /// enabled, these are all single-element ranges.
-    rec_groups: Vec<Range<usize>>,
+    pub rec_groups: Vec<Range<usize>>,
 
     /// A map from a super type to all of its sub types.
-    super_to_sub_types: HashMap<u32, Vec<u32>>,
+    pub super_to_sub_types: HashMap<u32, Vec<u32>>,
 
     /// Indices within `types` that are not final types.
-    can_subtype: Vec<u32>,
+    pub can_subtype: Vec<u32>,
 
     /// Whether we should encode a types section, even if `self.types` is empty.
-    should_encode_types: bool,
+    pub should_encode_types: bool,
 
     /// Whether we should propagate sharedness to types generated inside
     /// `propagate_shared`.
-    must_share: bool,
+    pub must_share: bool,
 
     /// All of this module's imports. These don't have their own index space,
     /// but instead introduce entries to each imported entity's associated index
     /// space.
-    imports: Vec<Import>,
+    pub imports: Vec<Import>,
 
     /// Whether we should encode an imports section, even if `self.imports` is
     /// empty.
-    should_encode_imports: bool,
+    pub should_encode_imports: bool,
 
     /// Indices within `types` that are array types.
-    array_types: Vec<u32>,
+    pub array_types: Vec<u32>,
 
     /// Indices within `types` that are function types.
-    func_types: Vec<u32>,
+    pub func_types: Vec<u32>,
 
     /// Indices within `types that are struct types.
-    struct_types: Vec<u32>,
+    pub struct_types: Vec<u32>,
 
     /// Number of imported items into this module.
-    num_imports: usize,
+    pub num_imports: usize,
 
     /// The number of tags defined in this module (not imported or
     /// aliased).
-    num_defined_tags: usize,
+    pub num_defined_tags: usize,
 
     /// The number of functions defined in this module (not imported or
     /// aliased).
-    num_defined_funcs: usize,
+    pub num_defined_funcs: usize,
 
     /// Initialization expressions for all defined tables in this module.
-    defined_tables: Vec<Option<ConstExpr>>,
+    pub defined_tables: Vec<Option<ConstExpr>>,
 
     /// The number of memories defined in this module (not imported or
     /// aliased).
-    num_defined_memories: usize,
+    pub num_defined_memories: usize,
 
     /// The indexes and initialization expressions of globals defined in this
     /// module.
-    defined_globals: Vec<(u32, ConstExpr)>,
+    pub defined_globals: Vec<(u32, ConstExpr)>,
 
     /// All tags available to this module, sorted by their index. The list
     /// entry is the type of each tag.
-    tags: Vec<TagType>,
+    pub tags: Vec<TagType>,
 
     /// All functions available to this module, sorted by their index. The list
     /// entry points to the index in this module where the function type is
     /// defined (if available) and provides the type of the function.
-    funcs: Vec<(u32, Rc<FuncType>)>,
+    pub funcs: Vec<(u32, Rc<FuncType>)>,
 
     /// All tables available to this module, sorted by their index. The list
     /// entry is the type of each table.
-    tables: Vec<TableType>,
+    pub tables: Vec<TableType>,
 
     /// All globals available to this module, sorted by their index. The list
     /// entry is the type of each global.
-    globals: Vec<GlobalType>,
+    pub globals: Vec<GlobalType>,
 
     /// All memories available to this module, sorted by their index. The list
     /// entry is the type of each memory.
-    memories: Vec<MemoryType>,
+    pub memories: Vec<MemoryType>,
 
-    exports: Vec<(String, ExportKind, u32)>,
-    start: Option<u32>,
-    elems: Vec<ElementSegment>,
-    code: Vec<Code>,
-    data: Vec<DataSegment>,
+    pub exports: Vec<(String, ExportKind, u32)>,
+    pub start: Option<u32>,
+    pub elems: Vec<ElementSegment>,
+    pub code: Vec<Code>,
+    pub data: Vec<DataSegment>,
 
     /// The predicted size of the effective type of this module, based on this
     /// module's size of the types of imports/exports.
-    type_size: u32,
+    pub type_size: u32,
 
     /// Names currently exported from this module.
-    export_names: HashSet<String>,
+    pub export_names: HashSet<String>,
 
     /// Reusable buffer in `self.arbitrary_const_expr` to amortize the cost of
     /// allocation.
-    const_expr_choices: Vec<Box<dyn Fn(&mut Unstructured, ValType) -> Result<ConstExpr>>>,
+    pub const_expr_choices: Vec<Box<dyn Fn(&mut Unstructured, ValType) -> Result<ConstExpr>>>,
 
     /// What the maximum type index that can be referenced is.
-    max_type_limit: MaxTypeLimit,
+    pub max_type_limit: MaxTypeLimit,
 
     /// Some known-interesting values, such as powers of two, values just before
     /// or just after a memory size, etc...
-    interesting_values32: Vec<u32>,
-    interesting_values64: Vec<u64>,
+    pub interesting_values32: Vec<u32>,
+    pub interesting_values64: Vec<u64>,
 }
 
 impl<'a> Arbitrary<'a> for Module {
@@ -337,7 +337,17 @@ pub(crate) enum CompositeInnerType {
 }
 
 /// A function signature.
-#[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, serde_derive::Serialize, serde_derive::Deserialize)]
+#[derive(
+    Clone,
+    Debug,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    serde_derive::Serialize,
+    serde_derive::Deserialize,
+)]
 pub(crate) struct FuncType {
     /// Types of the parameter values.
     pub(crate) params: Vec<ValType>,
@@ -410,7 +420,7 @@ pub struct Code {
 }
 
 #[derive(Debug)]
-enum Instructions {
+pub enum Instructions {
     Generated(Vec<Instruction>),
     Arbitrary(Vec<u8>),
 }
@@ -3000,7 +3010,10 @@ impl EntityType {
 /// assert!(kinds.contains(InstructionKind::Memory));
 /// ```
 #[derive(Clone, Copy, Debug, Default)]
-#[cfg_attr(feature = "serde_derive", derive(serde_derive::Deserialize, serde_derive::Serialize))]
+#[cfg_attr(
+    feature = "serde_derive",
+    derive(serde_derive::Deserialize, serde_derive::Serialize)
+)]
 pub struct InstructionKinds(pub(crate) FlagSet<InstructionKind>);
 
 impl InstructionKinds {
