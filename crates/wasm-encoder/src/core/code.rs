@@ -378,7 +378,7 @@ impl Encode for BlockType {
 }
 
 /// WebAssembly instructions.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, )]
 #[non_exhaustive]
 #[allow(missing_docs, non_camel_case_types)]
 pub enum Instruction<'a> {

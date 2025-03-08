@@ -184,8 +184,8 @@ enum AllowEmptyRecGroup {
     No,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum MaxTypeLimit {
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde_derive::Serialize, serde_derive::Deserialize)]
+pub enum MaxTypeLimit {
     ModuleTypes,
     Num(u32),
 }
@@ -403,31 +403,31 @@ enum Elements {
     Expressions(Vec<ConstExpr>),
 }
 
-#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
+#[derive(Debug)]
 pub struct Code {
     locals: Vec<ValType>,
     instructions: Instructions,
 }
 
-#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
+#[derive(Debug)]
 enum Instructions {
     Generated(Vec<Instruction>),
     Arbitrary(Vec<u8>),
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 pub struct DataSegment {
     kind: DataSegmentKind,
     init: Vec<u8>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 enum DataSegmentKind {
     Passive,
     Active { memory_index: u32, offset: Offset },
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde_derive::Serialize, serde_derive::Deserialize)]
 pub(crate) enum Offset {
     Const32(i32),
     Const64(i64),
