@@ -415,8 +415,8 @@ enum Elements {
 
 #[derive(Debug)]
 pub struct Code {
-    locals: Vec<ValType>,
-    instructions: Instructions,
+    pub locals: Vec<ValType>,
+    pub instructions: Instructions,
 }
 
 #[derive(Debug)]

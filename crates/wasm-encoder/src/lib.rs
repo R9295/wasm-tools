@@ -71,7 +71,7 @@
 
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![no_std]
-#![deny(missing_docs, missing_debug_implementations)]
+#![deny(missing_debug_implementations)]
 
 extern crate alloc;
 #[cfg(feature = "std")]
