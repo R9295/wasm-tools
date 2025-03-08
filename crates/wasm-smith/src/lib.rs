@@ -57,6 +57,7 @@
 
 #[cfg(feature = "component-model")]
 mod component;
+mod autarkie;
 mod config;
 mod core;
 

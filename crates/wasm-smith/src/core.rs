@@ -3000,7 +3000,7 @@ impl EntityType {
 /// assert!(kinds.contains(InstructionKind::Memory));
 /// ```
 #[derive(Clone, Copy, Debug, Default)]
-#[cfg_attr(feature = "serde_derive", derive(serde_derive::Deserialize))]
+#[cfg_attr(feature = "serde_derive", derive(serde_derive::Deserialize, serde_derive::Serialize))]
 pub struct InstructionKinds(pub(crate) FlagSet<InstructionKind>);
 
 impl InstructionKinds {
@@ -3048,7 +3048,7 @@ flags! {
     /// Enumerate the categories of instructions defined in the [WebAssembly
     /// specification](https://webassembly.github.io/spec/core/syntax/instructions.html).
     #[allow(missing_docs)]
-    #[cfg_attr(feature = "_internal_cli", derive(serde_derive::Deserialize))]
+    #[cfg_attr(feature = "serde_derive", derive(serde_derive::Serialize, serde_derive::Deserialize))]
     pub enum InstructionKind: u16 {
         NumericInt = 1 << 0,
         Numeric = (1 << 1) | (1 << 0),

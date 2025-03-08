@@ -29,6 +29,7 @@ clap = { workspace = true, optional = true }
 flagset = "0.4"
 serde = { workspace = true, optional = true }
 serde_derive = { workspace = true, optional = true }
+autarkie = { path = "../../../autarkie/autarkie", features = ["derive", "bincode"]}
 wasm-encoder = { workspace = true, features = ['std'] }
 wasmparser = { workspace = true, optional = true, features = ['std', 'validate', 'features', 'simd'] }
 wat = { workspace = true, optional = true }
@@ -44,6 +45,7 @@ wat = { workspace = true }
 libfuzzer-sys = { workspace = true }
 
 [features]
+default = ["serde", "serde_derive", "flagset/serde"]
 _internal_cli = ["clap", "flagset/serde", "serde", "serde_derive", "wasmparser", "wat"]
 wasmparser = ['dep:wasmparser', 'wasm-encoder/wasmparser']
 component-model = ['wasm-encoder/component-model']

@@ -13,6 +13,7 @@ macro_rules! define_config {
             )*
         }
     ) => {
+        #[cfg_attr(feature = "serde_derive", derive(serde_derive::Serialize, serde_derive::Deserialize))]
         $(#[$attr])*
         pub struct Config {
             /// The imports that may be used when generating the module.
@@ -654,7 +655,7 @@ define_config! {
 ///
 /// The default is `(90, 9, 1)`.
 #[derive(Clone, Debug)]
-#[cfg_attr(feature = "serde_derive", derive(serde_derive::Deserialize))]
+#[cfg_attr(feature = "serde_derive", derive(serde_derive::Deserialize, serde_derive::Serialize))]
 pub struct MemoryOffsetChoices(pub u32, pub u32, pub u32);
 
 impl Default for MemoryOffsetChoices {
